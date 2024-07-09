@@ -10,14 +10,10 @@ import reactor.core.publisher.Mono;
 @Service
 public class RedisService {
 
-    @Autowired
-    private ReactiveRedisTemplate<String, User> redisTemplate;
-
     private final ReactiveValueOperations<String, User> valueOps;
 
     @Autowired
     public RedisService(ReactiveRedisTemplate<String, User> redisTemplate) {
-        this.redisTemplate = redisTemplate;
         this.valueOps = redisTemplate.opsForValue();
     }
 
