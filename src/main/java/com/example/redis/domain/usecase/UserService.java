@@ -3,8 +3,8 @@ package com.example.redis.domain.usecase;
 
 
 import com.example.redis.contract.entity.User;
-import com.example.redis.infra.cache.adapter.RedisService;
 import com.example.redis.infra.database.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,12 +17,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private RedisService redisService;
-
     @Cacheable(value = "users", key = "#id")
     public Mono<User> getUserById(Long id) {
-        return redisService.getUser(id);
+        return userRepository.findById(id);
     }
 
     @CachePut(value = "users", key = "#user.id")
